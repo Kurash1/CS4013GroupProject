@@ -1,6 +1,5 @@
 import java.util.EnumSet;
 import java.util.HashMap;
-
 import javax.crypto.SecretKey;
 
 public class User {
@@ -18,6 +17,11 @@ public class User {
 		SecretKey key = PasswordEncryption.getNewKey();
 		this.passwordHashed = PasswordEncryption.encrypt(password, key);
 		this.passwordSalt = key;
+
+		users.put(id, this);
+	}
+
+	private User() {
 	}
 
 	public EnumSet<Permission> getPermissions() {
@@ -47,5 +51,25 @@ public class User {
 	public SecretKey getPasswordSalt(EnumSet<Permission> permissions) throws Exception {
 		Permission.CheckOrFail(permissions, Permission.readUser);
 		return passwordSalt;
+	}
+
+	public static void serialize(CSVWriter writer) {
+		for (User user : users.values()) {
+			writer.startObject("user");
+			writer.writeInt(user.id);
+			writer.writeString(user.name);
+			writer.writeBytes(user.passwordHashed);
+			writer.writeKey(user.passwordSalt);
+			writer.endObject();
+		}
+	}
+
+	public static void deserialize(CSVField field) {
+		User user = new User();
+		user.id = field.getInt(0);
+		user.name = field.getString(1);
+		user.passwordHashed = field.getBytes(2);
+		user.passwordSalt = field.getKey(3);
+		users.put(user.id, user);
 	}
 }
