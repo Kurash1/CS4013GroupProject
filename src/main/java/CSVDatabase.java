@@ -17,10 +17,7 @@ public class CSVDatabase {
 		while (reader.hasNextLine()) {
 			String data = reader.nextLine();
 			CSVField field = new CSVField(data.split(";", -1));
-			String type = field.getType();
-			if (type.equals("user")) {
-				User.deserialize(field);
-			}
+			User.deserialize(field);
 		}
 		reader.close();
 	}

@@ -3,14 +3,23 @@ import java.util.HashMap;
 import javax.crypto.SecretKey;
 
 public class User {
+	private UserType type;
 	private Integer id;
 	private String name;
 	private byte[] passwordHashed;
 	private SecretKey passwordSalt;
 
 	private static HashMap<Integer, User> users = new HashMap<Integer, User>();
+	private static HashMap<UserType, EnumSet<Permission>> permissionMapping = new HashMap<UserType, EnumSet<Permission>>();
+	static {
+		permissionMapping.put(UserType.Student, Permission.STUDENT_PERMISSIONS);
+		permissionMapping.put(UserType.Faculty, Permission.FACULTY_PERMISSIONS);
+		permissionMapping.put(UserType.Admin, Permission.ADMIN_PERMISSIONS);
+		permissionMapping.put(UserType.System, Permission.SUPER_PERMISSIONS);
+	}
 
-	public User(Integer id, String name, String password) throws Exception {
+	public User(UserType type, Integer id, String name, String password) throws Exception {
+		this.type = type;
 		this.id = id;
 		this.name = name;
 
@@ -21,11 +30,11 @@ public class User {
 		users.put(id, this);
 	}
 
-	private User() {
+	protected User() {
 	}
 
 	public EnumSet<Permission> getPermissions() {
-		return Permission.STUDENT_PERMISSIONS;
+		return permissionMapping.getOrDefault(type, Permission.NO_PERMISSIONS);
 	}
 
 	public static User getUser(Integer id, EnumSet<Permission> permissions) throws Exception {
@@ -56,6 +65,7 @@ public class User {
 	public static void serialize(CSVWriter writer) {
 		for (User user : users.values()) {
 			writer.startObject("user");
+			writer.writeString(user.type.name());
 			writer.writeInt(user.id);
 			writer.writeString(user.name);
 			writer.writeBytes(user.passwordHashed);
@@ -65,11 +75,17 @@ public class User {
 	}
 
 	public static void deserialize(CSVField field) {
+		if (field.getType().equals("user") == false)
+			return;
+
 		User user = new User();
-		user.id = field.getInt(0);
-		user.name = field.getString(1);
-		user.passwordHashed = field.getBytes(2);
-		user.passwordSalt = field.getKey(3);
+
+		user.type = UserType.valueOf(field.getString(0));
+		user.id = field.getInt(1);
+		user.name = field.getString(2);
+		user.passwordHashed = field.getBytes(3);
+		user.passwordSalt = field.getKey(4);
+
 		users.put(user.id, user);
 	}
 }
