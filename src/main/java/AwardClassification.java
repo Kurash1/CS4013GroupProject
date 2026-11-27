@@ -11,11 +11,11 @@ public class AwardClassification {
 
      // Returns the classification name
     public String getClassification() {
-        if (finalQca >= 3.40) {
+        if (finalQca >= 3.30) {
           return "First Class Honours";
-        } else if (finalQca >= 3.00) {
+        } else if (finalQca >= 2.90) {
           return "Second Class Honours, Grade 1 (2.1)";
-        } else if (finalQca >= 2.60) {
+        } else if (finalQca >= 2.50) {
           return "Second Class Honours, Grade 2 (2.2)";
         } else if (finalQca >= 2.00) {
           return "Third Class Honours";
