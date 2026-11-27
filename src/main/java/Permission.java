@@ -28,4 +28,8 @@ public enum Permission {
 
 		throw new IllegalArgumentException();
 	}
+
+	public static boolean Check(EnumSet<Permission> set, Permission perm) {
+		return set.contains(perm);
+	}
 }
