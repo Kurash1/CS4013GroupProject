@@ -1,5 +1,3 @@
-package src.main.java;
-
 /**
  * The two semesters of a UL academic year. Used to say when a module is taken
  * on a programme.
@@ -7,8 +5,8 @@ package src.main.java;
  * @author Mursal Karimzada
  */
 public enum Term {
-    /** Autumn semester. */
-    AUTUMN,
-    /** Spring semester. */
-    SPRING
+	/** Autumn semester. */
+	AUTUMN,
+	/** Spring semester. */
+	SPRING
 }
