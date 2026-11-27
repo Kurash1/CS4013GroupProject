@@ -26,7 +26,7 @@ public class AwardClassification {
 
     // Checks if the QCA is within 0.10 below a higher classification (never applies to Third Class).
     public boolean isInDiscretionBand() {
-        return (finalQca >= 3.30 && finalQca < 3.40) || (finalQca >= 2.90 && finalQca < 3.00) || (finalQca >= 2.50 && finalQca < 2.60);
+        return (finalQca >= 3.20 && finalQca < 3.30) || (finalQca >= 2.80 && finalQca < 2.90) || (finalQca >= 2.40 && finalQca < 2.50);
     }
 
     // Final QCA used.
