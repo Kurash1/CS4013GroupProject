@@ -1,13 +1,11 @@
 package view;
 
-import java.util.EnumSet;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import uni.*;
 import uni.Module;
-import user.*;
 
 /**
  * Stores student, programme, semester, progression and award references for an

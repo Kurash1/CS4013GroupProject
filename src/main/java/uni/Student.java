@@ -1,5 +1,10 @@
 package uni;
 
+import java.util.HashMap;
+
+import db.CSVField;
+import db.CSVWriter;
+
 /**
  * Stores the personal and contact information for one student. The student ID
  * is exposed for reading but has no public setter.
@@ -9,13 +14,15 @@ package uni;
 
 public class Student {
 	// Student info
+	private String studentID;
 	private String firstName;
 	private String lastName;
-	private String studentID;
 	private String email;
 	private String termTimeAddress;
 	private String correspondenceAddress;
 	private String phoneNumber;
+
+	private static HashMap<String, Student> students = new HashMap<String, Student>();
 
 	/**
 	 * Creates a Student instance and initialises its supplied references or values.
@@ -41,6 +48,43 @@ public class Student {
 		this.termTimeAddress = termTimeAddress;
 		this.correspondenceAddress = correspondenceAddress;
 		this.phoneNumber = phoneNumber;
+		students.put(studentID, this);
+	}
+
+	protected Student(String studentID) {
+		this.studentID = studentID;
+		students.put(studentID, this);
+	}
+
+	public static void serialize(CSVWriter writer) {
+		for (Student student : students.values()) {
+			writer.startObject("student");
+			writer.writeString(student.studentID);
+			writer.writeString(student.firstName);
+			writer.writeString(student.lastName);
+			writer.writeString(student.email);
+			writer.writeString(student.termTimeAddress);
+			writer.writeString(student.correspondenceAddress);
+			writer.writeString(student.phoneNumber);
+			writer.endObject();
+		}
+	}
+
+	public static void deserialize(CSVField field) {
+		if (field.getType().equals("student") == false)
+			return;
+
+		Student student = new Student(field.getString(0));
+		student.firstName = field.getString(1);
+		student.lastName = field.getString(2);
+		student.email = field.getString(3);
+		student.termTimeAddress = field.getString(4);
+		student.correspondenceAddress = field.getString(5);
+		student.phoneNumber = field.getString(6);
+	}
+
+	public static Student getStudent(String studentID) {
+		return students.getOrDefault(studentID, null);
 	}
 
 	// Getters

@@ -17,8 +17,8 @@ public class App {
 		input = new Scanner(System.in);
 		CSVDatabase.deserialize();
 
-		Student s = new Student("Test", "None", "254", "a@gmail.com", "", "", "");
-		new StudentUser("s1", "password", s);
+		new Student("Test", "None", "254", "a@gmail.com", "", "", "");
+		new StudentUser("s1", "password", "254");
 
 		while (running) {
 			menu.Open();

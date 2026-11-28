@@ -1,8 +1,6 @@
 package ui;
 
 import java.util.ArrayList;
-import java.util.Scanner;
-
 import app.App;
 import uni.*;
 import view.*;

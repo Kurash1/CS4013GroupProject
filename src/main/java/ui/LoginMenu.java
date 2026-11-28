@@ -1,6 +1,5 @@
 package ui;
 
-import java.util.Scanner;
 import user.*;
 import app.*;
 
@@ -17,11 +16,12 @@ public class LoginMenu implements IMenu {
 		}
 
 		System.out.println("Enter your Password: ");
-		Login login = Login.TryLogin(user, App.input.next());
-		while (login == null) {
+		boolean logged_in = false;
+		logged_in = IUser.tryLogin(user, App.input.next());
+		while (logged_in == false) {
 			System.out.println("Invalid password");
 			System.out.println("Enter your Password: ");
-			login = Login.TryLogin(user, App.input.next());
+			logged_in = IUser.tryLogin(user, App.input.next());
 		}
 
 		App.menu = user.getMenu();
