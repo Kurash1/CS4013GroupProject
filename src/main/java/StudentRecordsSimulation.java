@@ -64,14 +64,14 @@ public class StudentRecordsSimulation {
 		// Pass Jesse's authenticated login to the student menu (Member 4(Jesse)
 		// Login.java)
 		// Temporary demonstration account, not CSV-backed authentication.
-		User demo = new User(UserType.Student, 12345678, "John Murphy", "demo-only");
+		User demo = new User(UserType.Student, "12345678", "John Murphy", "demo-only");
 		Login login = Login.TryLogin(demo, "demo-only");
 		if (login == null)
 			return;
 		StudentMenu studentMenu = new StudentMenu(student, transcript, login);
 
 		// Start the student menu.
-		studentMenu.displayMenu();
+		studentMenu.Open();
 
 		System.out.println("\nThank you for using the Student Records System.");
 		System.out.println("Application closed.");

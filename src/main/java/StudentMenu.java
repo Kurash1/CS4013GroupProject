@@ -8,7 +8,7 @@ import java.util.Scanner;
  * @see Student
  */
 
-public class StudentMenu {
+public class StudentMenu implements IMenu {
 
 	private final Scanner scanner;
 	private final EnumSet<Permission> permissions;
@@ -33,7 +33,7 @@ public class StudentMenu {
 	/**
 	 * Displays menu options until logout and reports action failures.
 	 */
-	public void displayMenu() {
+	public void Open() throws Exception {
 
 		int choice;
 
