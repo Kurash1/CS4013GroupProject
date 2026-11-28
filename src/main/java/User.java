@@ -4,12 +4,12 @@ import javax.crypto.SecretKey;
 
 public class User {
 	private UserType type;
-	private Integer id;
+	private String username;
 	private String name;
 	private byte[] passwordHashed;
 	private SecretKey passwordSalt;
 
-	private static HashMap<Integer, User> users = new HashMap<Integer, User>();
+	private static HashMap<String, User> users = new HashMap<String, User>();
 	private static HashMap<UserType, EnumSet<Permission>> permissionMapping = new HashMap<UserType, EnumSet<Permission>>();
 	static {
 		permissionMapping.put(UserType.Student, Permission.STUDENT_PERMISSIONS);
@@ -18,16 +18,16 @@ public class User {
 		permissionMapping.put(UserType.System, Permission.SUPER_PERMISSIONS);
 	}
 
-	public User(UserType type, Integer id, String name, String password) throws Exception {
+	public User(UserType type, String username, String name, String password) throws Exception {
 		this.type = type;
-		this.id = id;
+		this.username = username;
 		this.name = name;
 
 		SecretKey key = PasswordEncryption.getNewKey();
 		this.passwordHashed = PasswordEncryption.encrypt(password, key);
 		this.passwordSalt = key;
 
-		users.put(id, this);
+		users.put(username, this);
 	}
 
 	protected User() {
@@ -37,14 +37,19 @@ public class User {
 		return permissionMapping.getOrDefault(type, Permission.NO_PERMISSIONS);
 	}
 
-	public static User getUser(Integer id, EnumSet<Permission> permissions) throws Exception {
+	public static User getUser(String username, EnumSet<Permission> permissions) throws Exception {
 		Permission.CheckOrFail(permissions, Permission.readUser);
-		return users.get(id);
+		return users.get(username);
 	}
 
-	public Integer getId(EnumSet<Permission> permissions) throws Exception {
+	public UserType getType(EnumSet<Permission> permissions) throws Exception {
 		Permission.CheckOrFail(permissions, Permission.readUser);
-		return id;
+		return type;
+	}
+
+	public String getUsername(EnumSet<Permission> permissions) throws Exception {
+		Permission.CheckOrFail(permissions, Permission.readUser);
+		return username;
 	}
 
 	public String getName(EnumSet<Permission> permissions) throws Exception {
@@ -66,7 +71,7 @@ public class User {
 		for (User user : users.values()) {
 			writer.startObject("user");
 			writer.writeString(user.type.name());
-			writer.writeInt(user.id);
+			writer.writeString(user.username);
 			writer.writeString(user.name);
 			writer.writeBytes(user.passwordHashed);
 			writer.writeKey(user.passwordSalt);
@@ -81,11 +86,11 @@ public class User {
 		User user = new User();
 
 		user.type = UserType.valueOf(field.getString(0));
-		user.id = field.getInt(1);
+		user.username = field.getString(1);
 		user.name = field.getString(2);
 		user.passwordHashed = field.getBytes(3);
 		user.passwordSalt = field.getKey(4);
 
-		users.put(user.id, user);
+		users.put(user.username, user);
 	}
 }
