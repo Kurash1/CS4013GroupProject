@@ -1,10 +1,8 @@
 package uni;
 
-import java.util.EnumSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Collections;
-import user.*;
 import view.*;
 
 /**
@@ -172,12 +170,12 @@ public class Semester {
 	 * @return readable semester details
 	 * @throws Exception if a required permission check or called operation fails
 	 */
-	public String displaySemesterDetails(EnumSet<Permission> permissions) throws Exception {
+	public String displaySemesterDetails() throws Exception {
 
 		return "Semester: " + semesterName +
 				"\nAcademic Year: " + academicYear +
-				"\nStudent: " + student.getFirstName(permissions) +
-				" " + student.getLastName(permissions) +
+				"\nStudent: " + student.getFirstName() +
+				" " + student.getLastName() +
 				"\nNumber of Modules: " + moduleResults.size() +
 				"\nSemester QCA: " + calculateSemesterQCA();
 	}

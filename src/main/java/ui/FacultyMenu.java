@@ -2,6 +2,8 @@ package ui;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import app.App;
 import uni.*;
 import view.*;
 
@@ -21,7 +23,6 @@ public class FacultyMenu {
 		int credits;
 	}
 
-	private Scanner scanner;
 	private Department department;
 	private ArrayList<Result> results;
 
@@ -31,7 +32,6 @@ public class FacultyMenu {
 	 */
 	public FacultyMenu(Department department) {
 		this.department = department;
-		this.scanner = new Scanner(System.in);
 		this.results = new ArrayList<>();
 	}
 
@@ -47,7 +47,7 @@ public class FacultyMenu {
 			System.out.println("5. Hold exam board");
 			System.out.println("0. Exit");
 			System.out.print("Choice: ");
-			String choice = scanner.nextLine().trim();
+			String choice = App.input.nextLine().trim();
 
 			if (choice.equals("1")) {
 				recordResult();
@@ -72,7 +72,7 @@ public class FacultyMenu {
 		while (true) {
 			System.out.print(prompt);
 			try {
-				return Double.parseDouble(scanner.nextLine().trim());
+				return Double.parseDouble(App.input.nextLine().trim());
 			} catch (NumberFormatException e) {
 				System.out.println("Please enter a number.");
 			}
@@ -81,7 +81,7 @@ public class FacultyMenu {
 
 	private String readText(String prompt) {
 		System.out.print(prompt);
-		return scanner.nextLine().trim();
+		return App.input.nextLine().trim();
 	}
 
 	private void recordResult() {

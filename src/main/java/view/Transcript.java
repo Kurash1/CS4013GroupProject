@@ -170,11 +170,7 @@ public class Transcript {
 	 * @return formatted academic transcript
 	 * @throws Exception if a required permission check or called operation fails
 	 */
-	public String generateTranscript(EnumSet<Permission> permissions) throws Exception {
-
-		Permission.CheckOrFail(permissions, Permission.readStudent);
-		Permission.CheckOrFail(permissions, Permission.readProgramme);
-		Permission.CheckOrFail(permissions, Permission.readModule);
+	public String generateTranscript() throws Exception {
 		StringBuilder transcript = new StringBuilder();
 
 		transcript.append("====================================\n");
@@ -191,25 +187,25 @@ public class Transcript {
 		transcript.append("-------------------\n");
 
 		transcript.append("Student ID: ")
-				.append(student.getStudentID(permissions)).append("\n");
+				.append(student.getStudentID()).append("\n");
 
 		transcript.append("First Name: ")
-				.append(student.getFirstName(permissions)).append("\n");
+				.append(student.getFirstName()).append("\n");
 
 		transcript.append("Last Name: ")
-				.append(student.getLastName(permissions)).append("\n");
+				.append(student.getLastName()).append("\n");
 
 		transcript.append("Email: ")
-				.append(student.getEmail(permissions)).append("\n");
+				.append(student.getEmail()).append("\n");
 
 		transcript.append("Phone Number: ")
-				.append(student.getPhoneNumber(permissions)).append("\n");
+				.append(student.getPhoneNumber()).append("\n");
 
 		transcript.append("Term-Time Address: ")
-				.append(student.getTermTimeAddress(permissions)).append("\n");
+				.append(student.getTermTimeAddress()).append("\n");
 
 		transcript.append("Correspondence Address: ")
-				.append(student.getCorrespondenceAddress(permissions))
+				.append(student.getCorrespondenceAddress())
 				.append("\n\n");
 
 		// ------------------------------------------
@@ -251,7 +247,6 @@ public class Transcript {
 			// Semester stores Module references and numerical percentage results.
 
 			for (Map.Entry<Module, Double> entry : semester.getModuleResults().entrySet()) {
-
 				transcript.append("\nModule: ")
 						.append(entry.getKey().toString());
 

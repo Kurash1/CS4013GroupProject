@@ -1,8 +1,6 @@
 package ui;
 
-import java.util.EnumSet;
-import java.util.Scanner;
-import user.*;
+import app.App;
 import uni.*;
 import view.*;
 
@@ -15,8 +13,6 @@ import view.*;
 
 public class StudentMenu implements IMenu {
 
-	private final Scanner scanner;
-	private final EnumSet<Permission> permissions;
 	private final Student student;
 	private final Transcript transcript;
 
@@ -27,20 +23,16 @@ public class StudentMenu implements IMenu {
 	 * @param transcript student transcript, which may be null
 	 * @param login      authenticated login supplying permissions
 	 */
-	public StudentMenu(Student student, Transcript transcript, Login login) { // Member 4 (Jesse): Login.java
-		this.scanner = new Scanner(System.in);
+	public StudentMenu(Student student, Transcript transcript) { // Member 4 (Jesse): Login.java
 		this.student = student;
 		this.transcript = transcript;
-		// Retrieve the student's permissions (Member 4(Jesse) Login.java)
-		this.permissions = login.getPermissions().clone();
 	}
 
 	/**
 	 * Displays menu options until logout and reports action failures.
 	 */
 	public void Open() throws Exception {
-
-		int choice;
+		int choice = 0;
 
 		do {
 			System.out.println("\n===== STUDENT MENU =====");
@@ -52,16 +44,15 @@ public class StudentMenu implements IMenu {
 			System.out.println("6. View Academic Transcript");
 			System.out.println("0. Log Out");
 
-			System.out.print("Enter your choice: ");
-
-			while (!scanner.hasNextInt()) {
-				System.out.println("Please enter a valid number.");
-				scanner.nextLine();
-				System.out.print("Enter your choice: ");
+			while (true) {
+				try {
+					System.out.print("Enter your choice: ");
+					choice = App.input.nextInt();
+					break;
+				} catch (Exception e) {
+					System.out.println("Please enter a valid number.");
+				}
 			}
-
-			choice = scanner.nextInt();
-			scanner.nextLine();
 
 			try {
 				switch (choice) {
@@ -91,7 +82,7 @@ public class StudentMenu implements IMenu {
 						break;
 
 					case 0:
-						System.out.println("Logging out...");
+						App.menu = new LoginMenu();
 						break;
 
 					default:
@@ -107,34 +98,32 @@ public class StudentMenu implements IMenu {
 	/**
 	 * Displays personal details using permission-protected getters.
 	 * 
-	 * @throws Exception if a required permission check or called operation fails
+	 * @throws Exception called operation fails
 	 */
 	private void viewPersonalDetails() throws Exception {
 
 		System.out.println("\n===== PERSONAL DETAILS =====");
 
-		System.out.println("Student ID: " + student.getStudentID(permissions));
-		System.out.println("First Name: " + student.getFirstName(permissions));
-		System.out.println("Last Name: " + student.getLastName(permissions));
-		System.out.println("Email: " + student.getEmail(permissions));
-		System.out.println("Phone Number: " + student.getPhoneNumber(permissions));
+		System.out.println("Student ID: " + student.getStudentID());
+		System.out.println("First Name: " + student.getFirstName());
+		System.out.println("Last Name: " + student.getLastName());
+		System.out.println("Email: " + student.getEmail());
+		System.out.println("Phone Number: " + student.getPhoneNumber());
 		System.out.println("Term-Time Address: "
-				+ student.getTermTimeAddress(permissions));
+				+ student.getTermTimeAddress());
 		System.out.println("Correspondence Address: "
-				+ student.getCorrespondenceAddress(permissions));
+				+ student.getCorrespondenceAddress());
 	}
 
 	/**
 	 * Checks write permission and updates personal details in memory. Persistence
 	 * is not yet implemented.
 	 * 
-	 * @throws Exception                     if a required permission check or
-	 *                                       called operation fails
+	 * @throws Exception                     called operation fails
 	 * @throws UnsupportedOperationException because persistence is not implemented
 	 */
-	private void updatePersonalDetails() throws Exception {
-		Permission.CheckOrFail(permissions, Permission.writeStudent);
 
+	private void updatePersonalDetails() throws Exception {
 		int choice;
 
 		do {
@@ -149,45 +138,45 @@ public class StudentMenu implements IMenu {
 
 			System.out.print("Enter your choice: ");
 
-			while (!scanner.hasNextInt()) {
+			while (!App.input.hasNextInt()) {
 				System.out.println("Please enter a valid number.");
-				scanner.nextLine();
+				App.input.nextLine();
 				System.out.print("Enter your choice: ");
 			}
 
-			choice = scanner.nextInt();
-			scanner.nextLine();
+			choice = App.input.nextInt();
+			App.input.nextLine();
 
 			switch (choice) {
 
 				case 1:
 					System.out.print("Enter new first name: ");
-					student.setFirstName(scanner.nextLine(), permissions);
+					student.setFirstName(App.input.nextLine());
 					break;
 
 				case 2:
 					System.out.print("Enter new last name: ");
-					student.setLastName(scanner.nextLine(), permissions);
+					student.setLastName(App.input.nextLine());
 					break;
 
 				case 3:
 					System.out.print("Enter new email: ");
-					student.setEmail(scanner.nextLine(), permissions);
+					student.setEmail(App.input.nextLine());
 					break;
 
 				case 4:
 					System.out.print("Enter new phone number: ");
-					student.setPhoneNumber(scanner.nextLine(), permissions);
+					student.setPhoneNumber(App.input.nextLine());
 					break;
 
 				case 5:
 					System.out.print("Enter new term-time address: ");
-					student.setTermTimeAddress(scanner.nextLine(), permissions);
+					student.setTermTimeAddress(App.input.nextLine());
 					break;
 
 				case 6:
 					System.out.print("Enter new correspondence address: ");
-					student.setCorrespondenceAddress(scanner.nextLine(), permissions);
+					student.setCorrespondenceAddress(App.input.nextLine());
 					break;
 
 				case 0:
@@ -272,8 +261,7 @@ public class StudentMenu implements IMenu {
 	/**
 	 * Displays the academic transcript when available.
 	 * 
-	 * @throws Exception                     if a required permission check or
-	 *                                       called operation fails
+	 * @throws Exception                     called operation fails
 	 * @throws UnsupportedOperationException if the transcript is unavailable
 	 */
 	private void viewTranscript() throws Exception {
@@ -284,6 +272,6 @@ public class StudentMenu implements IMenu {
 			throw new UnsupportedOperationException("Not yet implemented");
 		}
 
-		System.out.println(transcript.generateTranscript(permissions));
+		System.out.println(transcript.generateTranscript());
 	}
 }

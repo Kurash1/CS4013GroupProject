@@ -1,8 +1,5 @@
 package uni;
 
-import java.util.EnumSet;
-import user.*;
-
 /**
  * Stores the personal and contact information for one student. The student ID
  * is exposed for reading but has no public setter.
@@ -51,12 +48,9 @@ public class Student {
 	 * Returns first name.
 	 * 
 	 * @return the requested text value
-	 * @param permissions caller permissions
-	 * @throws Exception if permission is denied
 	 */
 
-	public String getFirstName(EnumSet<Permission> permissions) throws Exception {
-		Permission.CheckOrFail(permissions, Permission.readStudent);
+	public String getFirstName() {
 		return firstName;
 	}
 
@@ -64,12 +58,9 @@ public class Student {
 	 * Returns last name.
 	 * 
 	 * @return the requested text value
-	 * @param permissions caller permissions
-	 * @throws Exception if permission is denied
 	 */
 
-	public String getLastName(EnumSet<Permission> permissions) throws Exception {
-		Permission.CheckOrFail(permissions, Permission.readStudent);
+	public String getLastName() {
 		return lastName;
 	}
 
@@ -77,12 +68,9 @@ public class Student {
 	 * Returns student id.
 	 * 
 	 * @return the requested text value
-	 * @param permissions caller permissions
-	 * @throws Exception if permission is denied
 	 */
 
-	public String getStudentID(EnumSet<Permission> permissions) throws Exception {
-		Permission.CheckOrFail(permissions, Permission.readStudent);
+	public String getStudentID() {
 		return studentID;
 	}
 
@@ -90,12 +78,9 @@ public class Student {
 	 * Returns email.
 	 * 
 	 * @return the requested text value
-	 * @param permissions caller permissions
-	 * @throws Exception if permission is denied
 	 */
 
-	public String getEmail(EnumSet<Permission> permissions) throws Exception {
-		Permission.CheckOrFail(permissions, Permission.readStudent);
+	public String getEmail() {
 		return email;
 	}
 
@@ -103,12 +88,9 @@ public class Student {
 	 * Returns term time address.
 	 * 
 	 * @return the requested text value
-	 * @param permissions caller permissions
-	 * @throws Exception if permission is denied
 	 */
 
-	public String getTermTimeAddress(EnumSet<Permission> permissions) throws Exception {
-		Permission.CheckOrFail(permissions, Permission.readStudent);
+	public String getTermTimeAddress() {
 		return termTimeAddress;
 	}
 
@@ -116,12 +98,9 @@ public class Student {
 	 * Returns correspondence address.
 	 * 
 	 * @return the requested text value
-	 * @param permissions caller permissions
-	 * @throws Exception if permission is denied
 	 */
 
-	public String getCorrespondenceAddress(EnumSet<Permission> permissions) throws Exception {
-		Permission.CheckOrFail(permissions, Permission.readStudent);
+	public String getCorrespondenceAddress() {
 		return correspondenceAddress;
 	}
 
@@ -129,12 +108,9 @@ public class Student {
 	 * Returns phone number.
 	 * 
 	 * @return the requested text value
-	 * @param permissions caller permissions
-	 * @throws Exception if permission is denied
 	 */
 
-	public String getPhoneNumber(EnumSet<Permission> permissions) throws Exception {
-		Permission.CheckOrFail(permissions, Permission.readStudent);
+	public String getPhoneNumber() {
 		return phoneNumber;
 	}
 
@@ -142,39 +118,30 @@ public class Student {
 	/**
 	 * Updates first name.
 	 * 
-	 * @param firstName   student’s first name
-	 * @param permissions caller permissions
-	 * @throws Exception if permission is denied
+	 * @param firstName student’s first name
 	 */
 
-	public void setFirstName(String firstName, EnumSet<Permission> permissions) throws Exception {
-		Permission.CheckOrFail(permissions, Permission.writeStudent);
+	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 
 	/**
 	 * Updates last name.
 	 * 
-	 * @param lastName    student’s last name
-	 * @param permissions caller permissions
-	 * @throws Exception if permission is denied
+	 * @param lastName student’s last name
 	 */
 
-	public void setLastName(String lastName, EnumSet<Permission> permissions) throws Exception {
-		Permission.CheckOrFail(permissions, Permission.writeStudent);
+	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
 
 	/**
 	 * Updates email.
 	 * 
-	 * @param email       student email address
-	 * @param permissions caller permissions
-	 * @throws Exception if permission is denied
+	 * @param email student email address
 	 */
 
-	public void setEmail(String email, EnumSet<Permission> permissions) throws Exception {
-		Permission.CheckOrFail(permissions, Permission.writeStudent);
+	public void setEmail(String email) {
 		this.email = email;
 	}
 
@@ -182,12 +149,9 @@ public class Student {
 	 * Updates term time address.
 	 * 
 	 * @param termTimeAddress term-time postal address
-	 * @param permissions     caller permissions
-	 * @throws Exception if permission is denied
 	 */
 
-	public void setTermTimeAddress(String termTimeAddress, EnumSet<Permission> permissions) throws Exception {
-		Permission.CheckOrFail(permissions, Permission.writeStudent);
+	public void setTermTimeAddress(String termTimeAddress) {
 		this.termTimeAddress = termTimeAddress;
 	}
 
@@ -195,13 +159,9 @@ public class Student {
 	 * Updates correspondence address.
 	 * 
 	 * @param correspondenceAddress correspondence postal address
-	 * @param permissions           caller permissions
-	 * @throws Exception if permission is denied
 	 */
 
-	public void setCorrespondenceAddress(String correspondenceAddress, EnumSet<Permission> permissions)
-			throws Exception {
-		Permission.CheckOrFail(permissions, Permission.writeStudent);
+	public void setCorrespondenceAddress(String correspondenceAddress) {
 		this.correspondenceAddress = correspondenceAddress;
 	}
 
@@ -209,12 +169,9 @@ public class Student {
 	 * Updates phone number.
 	 * 
 	 * @param phoneNumber contact telephone number
-	 * @param permissions caller permissions
-	 * @throws Exception if permission is denied
 	 */
 
-	public void setPhoneNumber(String phoneNumber, EnumSet<Permission> permissions) throws Exception {
-		Permission.CheckOrFail(permissions, Permission.writeStudent);
+	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 
@@ -223,12 +180,9 @@ public class Student {
 	 * Returns student details to an authorized caller.
 	 * 
 	 * @return a readable summary of this object
-	 * @param permissions caller permissions
-	 * @throws Exception if permission is denied
 	 */
 
-	public String displayStudentDetails(EnumSet<Permission> permissions) throws Exception {
-		Permission.CheckOrFail(permissions, Permission.readStudent);
+	public String displayStudentDetails() throws Exception {
 		return "Student Details\n" +
 				"Student ID: " + studentID + "\n" +
 				"First Name: " + firstName + "\n" +

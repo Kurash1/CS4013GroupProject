@@ -6,21 +6,17 @@ import javax.crypto.SecretKey;
 import sec.*;
 
 public class Login {
-	private User account;
+	private IUser account;
 
-	public EnumSet<Permission> getPermissions() {
-		return account.getPermissions();
-	}
-
-	private Login(User user) {
+	private Login(IUser user) {
 		account = user;
 	}
 
-	public static Login TryLogin(User user, String password) throws Exception {
-		SecretKey salt = user.getPasswordSalt(Permission.SUPER_PERMISSIONS);
+	public static Login TryLogin(IUser user, String password) throws Exception {
+		SecretKey salt = user.getPasswordSalt();
 		byte[] encryptedAttempt = PasswordEncryption.encrypt(password, salt);
 
-		byte[] hash = user.getPasswordHashed(Permission.SUPER_PERMISSIONS);
+		byte[] hash = user.getPasswordHashed();
 
 		if (MessageDigest.isEqual(encryptedAttempt, hash))
 			return new Login(user);
