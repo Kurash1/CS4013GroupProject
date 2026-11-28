@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.Scanner;
 
+import uni.Student;
 import user.AdminUser;
 import user.FacultyUser;
 import user.StudentUser;
@@ -16,6 +17,8 @@ public class CSVDatabase {
 		AdminUser.serialize(writer);
 		FacultyUser.serialize(writer);
 		StudentUser.serialize(writer);
+
+		Student.serialize(writer);
 
 		csv.write(writer.construct());
 		csv.close();
@@ -32,6 +35,7 @@ public class CSVDatabase {
 			FacultyUser.deserialize(field);
 			StudentUser.deserialize(field);
 
+			Student.deserialize(field);
 		}
 		reader.close();
 	}

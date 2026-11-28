@@ -7,6 +7,17 @@ public class LoginMenu implements IMenu {
 	public void Open() throws Exception {
 		System.out.println("===== LOGIN MENU =====");
 
+		while (true) {
+			System.out.println("Would you like to Login (0) or Exit (1)");
+			String choice = App.input.next();
+			if (choice.equals("0"))
+				break;
+			if (choice.equals("1")) {
+				App.running = false;
+				return;
+			}
+		}
+
 		System.out.println("Enter your User Name: ");
 		IUser user = IUser.getUser(App.input.next());
 		while (user == null) {
